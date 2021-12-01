@@ -15,42 +15,42 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PrologDatabaseController {
     private final AtomicInteger counter = new AtomicInteger(1);
 
-    @GetMapping("/recommend_ergonomic_chair")
+    @GetMapping("/recommend/ergonomic-chair")
     public String recommend_ergonomic_chair() {
         List<String> result = executePeopleQuery("recommend_ergonomic_chair_people");
 
         return result.toString();
     }
 
-    @GetMapping("/recommend_family_discount")
+    @GetMapping("/recommend/family-discount")
     public String recommend_family_discount() {
         List<String> result = executePeopleQuery("recommend_family_discount_people");
 
         return result.toString();
     }
 
-    @GetMapping("/recommend_massage_chair")
+    @GetMapping("/recommend/massage-chair")
     public String recommend_massage_chair() {
         List<String> result = executePeopleQuery("recommend_massage_chair_people");
 
         return result.toString();
     }
 
-    @GetMapping("/recommend_portable_chair")
+    @GetMapping("/recommend/portable-chair")
     public String recommend_portable_chair() {
         List<String> result = executePeopleQuery("recommend_portable_chair_people");
 
         return result.toString();
     }
 
-    @GetMapping("/recommend_leasing_chair")
+    @GetMapping("/recommend/leasing-chair")
     public String recommend_leasing_chair() {
         List<String> result = executePeopleQuery("recommend_leasing_chair_people");
 
         return result.toString();
     }
 
-    @GetMapping("/hump")
+    @GetMapping("/warn-hump")
     public String hump() {
         List<String> result = executePeopleQuery("hump_people");
 
@@ -86,7 +86,7 @@ public class PrologDatabaseController {
         return result.toString();
     }
 
-    @PostMapping("/add_person")
+    @PostMapping("/person")
     public void add_person(@RequestBody Person person){
         String queryTemplate = "assert(person(%d, %s, %s))";
         Query q =
@@ -97,7 +97,7 @@ public class PrologDatabaseController {
         q.hasSolution();
     }
 
-    @GetMapping("/people")
+    @GetMapping("/person")
     public String people() {
         List<String> result = executePeopleQuery("person");
 

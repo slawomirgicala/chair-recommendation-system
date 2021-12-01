@@ -108,7 +108,7 @@ fisherman(Y) :- (on_retirement(Y), is_married(Y));
 
 traveller(Y) :- (bought_tent(Y, X), X=1);
     (bought_sleeping_bag(Y, X), X=1);
-    (young(Y), not(is_married(Y))).
+    (not(earlyadulthood(Y)), not(is_married(Y))).
 
 recommend_portable_chair(Y) :- fisherman(Y);
     traveller(Y).

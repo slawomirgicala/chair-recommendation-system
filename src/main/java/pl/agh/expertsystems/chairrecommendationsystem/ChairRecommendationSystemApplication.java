@@ -13,7 +13,7 @@ public class ChairRecommendationSystemApplication {
         Query q1 =
                 new Query(
                         "consult",
-                        new Term[] {new Atom("src\\main\\prolog\\chair-recommendation-system.pl")}
+                        new Term[] {new Atom("src/main/prolog/chair-recommendation-system.pl")}
                 );
         System.out.println( "consult " + (q1.hasSolution() ? "succeeded" : "failed"));
         SpringApplication.run(ChairRecommendationSystemApplication.class, args);
