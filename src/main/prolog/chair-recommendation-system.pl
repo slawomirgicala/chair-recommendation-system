@@ -78,14 +78,12 @@ recommend_ergonomic_chair(Y) :- middle_budget(Y), sitting_too_long(Y);
 
 recommend_ergonomic_chair_people(X, Y, Z) :- recommend_ergonomic_chair(X), person(X, Y, Z).
 
-
 % 2. czy powinienem zarekomendować promocję na zakup krzeseł dla rodziny, z budżetowych materiałów
 
 recommend_family_discount(Y) :- (has_children(Y), low_budget(Y));
     (is_married(Y), low_budget(Y)).
 
 recommend_family_discount_people(X, Y, Z) :- recommend_family_discount(X), person(X, Y, Z).
-
 
 % 3. krzesło z masażem - starsza soba lub młoda, dużo siedząca  
 
@@ -115,7 +113,6 @@ recommend_portable_chair(Y) :- fisherman(Y);
 
 recommend_portable_chair_people(X, Y, Z) :- recommend_portable_chair(X), person(X, Y, Z).
 
-
 % 5. krzesło w leasing - prowadzi firmę i ma duży dochód, ale nie bolą go plecy - krzesło szefa
 
 :- dynamic company/1,
@@ -132,18 +129,6 @@ recommend_leasing_chair(Y) :- boss(Y), programmer(Y).
 
 recommend_leasing_chair_people(X, Y, Z) :- recommend_leasing_chair(X), person(X, Y, Z).
 
-person(
- 0,
- 'michal',
- 'dygas'
-).
-
-invoice(0).
-
-walking_time(0, 500).
-
-sitting_time(0, 30).
-
 % fakty pośrednie
 
 scoliosis_danger(Y) :- sitting_too_long(Y), sleep_on_side(Y).
@@ -154,7 +139,7 @@ real_hump(Y) :- sitting_too_long(Y), not(active(Y)), joga(Y), gym(Y).
 
 leasing(Y) :- is_company(Y), not(sitting_too_long(Y)), active(Y).
 
-% 6. czy tej osobie grozi garb na plecac
+% 6. czy tej osobie grozi garb na plecach
 
 hump(Y):- real_hump(Y); it_job(Y); (tall(Y), sitting_too_long(Y)); scoliosis_danger(Y).
 
@@ -175,7 +160,7 @@ gamer_chair(Y) :- teen(Y), obese(Y), upper_budget(Y), not(company(Y)).
 
 gamer_chair_people(X, Y, Z) :- gamer_chair(X), person(X, Y, Z).
 
-% 10. taboret - ktoś kto uprawia jogę i lubi egozytyczne przyprawyi jest niski
+% 10. taboret - ktoś kto uprawia jogę i lubi egzoytyczne przyprawy i jest niski
 
 chair_without_backrest(Y) :- not(tall(Y)), active(Y), not(might_have_backpain(Y)).
 chair_without_backrest_people(X, Y, Z) :- chair_without_backrest(X), person(X, Y, Z).

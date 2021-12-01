@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.agh.expertsystems.chairrecommendationsystem.dto.Person;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -89,12 +90,73 @@ public class PrologDatabaseController {
     @PostMapping("/person")
     public void add_person(@RequestBody Person person){
         String queryTemplate = "assert(person(%d, %s, %s))";
+
+        Integer id = counter.incrementAndGet();
+
         Query q =
                 new Query(
-                        String.format(queryTemplate, counter.incrementAndGet(),
+                        String.format(queryTemplate, id,
                                 person.getName(), person.getSurname())
                 );
+
         q.hasSolution();
+
+        Integer budget = person.getBudget();
+
+        if(budget !=  null) {
+            queryTemplate = "assert(budget(%d, %s))";
+            q = new Query(String.format(queryTemplate, id, budget));
+            q.hasSolution();
+        }
+
+        Integer discount = person.getDiscount();
+
+        if(discount !=  null) {
+            queryTemplate = "assert(discount(%d, %d))";
+            q = new Query(String.format(queryTemplate, id, discount));
+            q.hasSolution();
+        }
+
+        Integer sittingTime = person.getSittingTime();
+
+        if(sittingTime !=  null) {
+            queryTemplate = "assert(sitting_time(%d, %d))";
+            q = new Query(String.format(queryTemplate, id, sittingTime));
+            q.hasSolution();
+        }
+
+        String age = person.getAge();
+
+        if(age !=  null) {
+            queryTemplate = "assert(age(%d, %d))";
+            q = new Query(String.format(queryTemplate, id, age));
+            q.hasSolution();
+        }
+
+        Integer height = person.getHeight();
+        Integer weight = person.getWeight();
+
+        if(weight !=  null && height !=  null) {
+            queryTemplate = "assert(measure(%d, %d, %d))";
+            q = new Query(String.format(queryTemplate, id, weight, height));
+            q.hasSolution();
+        }
+
+        String sex = person.getSex();
+
+        if(sex !=  null) {
+            queryTemplate = "assert(sex(%d, %s))";
+            q = new Query(String.format(queryTemplate, id, sex));
+            q.hasSolution();
+        }
+
+        Boolean itJob = person.getItJob();
+
+        if(itJob != null && itJob){
+            queryTemplate = "assert(it_job(%d))";
+            q = new Query(String.format(queryTemplate, id));
+            q.hasSolution();
+        }
     }
 
     @GetMapping("/person")
