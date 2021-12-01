@@ -6,6 +6,8 @@ import org.jpl7.Variable;
 import org.springframework.web.bind.annotation.*;
 import pl.agh.expertsystems.chairrecommendationsystem.dto.Person;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,24 +15,76 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PrologDatabaseController {
     private final AtomicInteger counter = new AtomicInteger(1);
 
-    @GetMapping("/chair_without_backrest")
-    public String chair_without_backrest(@RequestParam(value = "name", defaultValue = "World") String name) {
-        Variable X = new Variable("X");
-        Query q =
-                new Query(
-                        "chair_without_backrest",
-                        new Term[] {X}
-                );
+    @GetMapping("/recommend_ergonomic_chair")
+    public String recommend_ergonomic_chair() {
+        List<String> result = executePeopleQuery("recommend_ergonomic_chair_people");
 
-        String result = "";
-        Map<String,Term>[] solutions = q.allSolutions();
-        for ( int i=0 ; i < solutions.length ; i++ ) {
-            result = result + solutions[i].get("X");
-        }
-
-        return result;
+        return result.toString();
     }
 
+    @GetMapping("/recommend_family_discount")
+    public String recommend_family_discount() {
+        List<String> result = executePeopleQuery("recommend_family_discount_people");
+
+        return result.toString();
+    }
+
+    @GetMapping("/recommend_massage_chair")
+    public String recommend_massage_chair() {
+        List<String> result = executePeopleQuery("recommend_massage_chair_people");
+
+        return result.toString();
+    }
+
+    @GetMapping("/recommend_portable_chair")
+    public String recommend_portable_chair() {
+        List<String> result = executePeopleQuery("recommend_portable_chair_people");
+
+        return result.toString();
+    }
+
+    @GetMapping("/recommend_leasing_chair")
+    public String recommend_leasing_chair() {
+        List<String> result = executePeopleQuery("recommend_leasing_chair_people");
+
+        return result.toString();
+    }
+
+    @GetMapping("/hump")
+    public String hump() {
+        List<String> result = executePeopleQuery("hump_people");
+
+        return result.toString();
+    }
+
+    @GetMapping("/too_big_discount")
+    public String too_big_discount() {
+        List<String> result = executePeopleQuery("too_big_discount_people");
+
+        return result.toString();
+    }
+
+    @GetMapping("/gamer_chair")
+    public String gamer_chair() {
+        List<String> result = executePeopleQuery("gamer_chair_people");
+
+        return result.toString();
+    }
+
+    //9 missing in prolog?
+//    @GetMapping("/chair_without_backrest")
+//    public String chair_without_backrest() {
+//        List<String> result = executePeopleQuery("chair_without_backrest_people");
+//
+//        return result.toString();
+//    }
+
+    @GetMapping("/chair_without_backrest")
+    public String chair_without_backrest() {
+        List<String> result = executePeopleQuery("chair_without_backrest_people");
+
+        return result.toString();
+    }
 
     @PostMapping("/add_person")
     public void add_person(@RequestBody Person person){
@@ -45,19 +99,25 @@ public class PrologDatabaseController {
 
     @GetMapping("/people")
     public String people() {
+        List<String> result = executePeopleQuery("person");
+
+        return result.toString();
+    }
+
+    private List<String> executePeopleQuery(String queryName){
         Variable X = new Variable("X");
         Variable Name = new Variable("Name");
         Variable Surname = new Variable("Surname");
         Query q =
                 new Query(
-                        "person",
+                        queryName,
                         new Term[] {X, Name, Surname}
                 );
 
-        String result = "";
+        List<String> result = new ArrayList<>();
         Map<String,Term>[] solutions = q.allSolutions();
         for ( int i=0 ; i < solutions.length ; i++ ) {
-            result = result + solutions[i].get("X") + ": " + solutions[i].get("Name") + " " + solutions[i].get("Surname") + "\n";
+            result.add(solutions[i].get("X") + ": " + solutions[i].get("Name") + " " + solutions[i].get("Surname"));
         }
 
         return result;

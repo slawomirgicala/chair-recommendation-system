@@ -73,8 +73,10 @@ might_have_backpain(Y) :- obese(Y); it_job(Y); (lazy(Y), sitting_too_long(Y)).
 
 % 1. czy powinienem zarekomendować drogie krzesło ergonomiczne
 
-recommend_ergnomic_chair(Y) :- middle_budget(Y), sitting_too_long(Y);
+recommend_ergonomic_chair(Y) :- middle_budget(Y), sitting_too_long(Y);
     upper_budget(Y).
+
+recommend_ergonomic_chair_people(X, Y, Z) :- recommend_ergonomic_chair(X), person(X, Y, Z).
 
 
 % 2. czy powinienem zarekomendować promocję na zakup krzeseł dla rodziny, z budżetowych materiałów
@@ -82,11 +84,15 @@ recommend_ergnomic_chair(Y) :- middle_budget(Y), sitting_too_long(Y);
 recommend_family_discount(Y) :- (has_children(Y), low_budget(Y));
     (is_married(Y), low_budget(Y)).
 
+recommend_family_discount_people(X, Y, Z) :- recommend_family_discount(X), person(X, Y, Z).
+
 
 % 3. krzesło z masażem - starsza soba lub młoda, dużo siedząca  
 
 recommend_massage_chair(Y) :- not(lateadulthood(Y)), sitting_too_long(Y);
     lateadulthood(Y).
+
+recommend_massage_chair_people(X, Y, Z) :- recommend_massage_chair(X), person(X, Y, Z).
 
 % 4. biwak, festiwal, wędkarz - krzesło rozkładane
 
@@ -107,6 +113,8 @@ traveller(Y) :- (bought_tent(Y, X), X=1);
 recommend_portable_chair(Y) :- fisherman(Y);
     traveller(Y).
 
+recommend_portable_chair_people(X, Y, Z) :- recommend_portable_chair(X), person(X, Y, Z).
+
 
 % 5. krzesło w leasing - prowadzi firmę i ma duży dochód, ale nie bolą go plecy - krzesło szefa
 
@@ -121,6 +129,8 @@ boss(Y) :- company(Y), expensive_car(Y), not(backache(Y)).
 programmer(Y) :- upper_budget(Y), not(fisherman(Y)), not(on_retirement(Y)).
 
 recommend_leasing_chair(Y) :- boss(Y), programmer(Y).
+
+recommend_leasing_chair_people(X, Y, Z) :- recommend_leasing_chair(X), person(X, Y, Z).
 
 person(
  0,
@@ -148,16 +158,24 @@ leasing(Y) :- is_company(Y), not(sitting_too_long(Y)), active(Y).
 
 hump(Y):- real_hump(Y); it_job(Y); (tall(Y), sitting_too_long(Y)); scoliosis_danger(Y).
 
+hump_people(X, Y, Z) :- hump(X), person(X, Y, Z).
+
 % 7. nie powinienem dzwonić ponieważ ta osoba ma niżki i mniej zarobi
 
 too_big_discount(Y) :- student(Y); not(midadulthood(Y)).
 
+too_big_discount_people(X, Y, Z) :- too_big_discount(X), person(X, Y, Z).
+
 % 8. ta osoba może polecić innym nasze usługi - dużo osób o tym samym nazwisku o podobynm wzroście
+
 
 % 9. krzesło gamerskie ??? 
 
 gamer_chair(Y) :- teen(Y), obese(Y), upper_budget(Y), not(company(Y)).
 
+gamer_chair_people(X, Y, Z) :- gamer_chair(X), person(X, Y, Z).
+
 % 10. taboret - ktoś kto uprawia jogę i lubi egozytyczne przyprawyi jest niski
 
 chair_without_backrest(Y) :- not(tall(Y)), active(Y), not(might_have_backpain(Y)).
+chair_without_backrest_people(X, Y, Z) :- chair_without_backrest(X), person(X, Y, Z).
